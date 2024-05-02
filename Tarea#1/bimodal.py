@@ -15,20 +15,45 @@ class bimodal:
         print("\tEntradas en el predictor\t\t"+str(2**self.bits_to_index))
 
     def print_stats(self):
-        print("Resultados de la simulación")
-        print("\t# branches:\t\t\t\t\t\t"+str(self.total_predictions))
-        print("\t# branches tomados predichos correctamente:\t\t"+str(self.total_taken_pred_taken))
-        print("\t# branches tomados predichos incorrectamente:\t\t"+str(self.total_taken_pred_not_taken))
-        print("\t# branches no tomados predichos correctamente:\t\t"+str(self.total_not_taken_pred_not_taken))
-        print("\t# branches no tomados predichos incorrectamente:\t"+str(self.total_not_taken_pred_taken))
-        perc_correct = 100*(self.total_taken_pred_taken+self.total_not_taken_pred_not_taken)/self.total_predictions
+        print(
+            "Resultados de la simulación"
+            )
+        print(
+            "\t# branches:\t\t\t\t\t\t"+str(self.total_predictions)
+            )
+        print(
+            "\t# branches tomados predichos correctamente:\t\t" +
+            str(self.total_taken_pred_taken)
+            )
+        print(
+            "\t# branches tomados predichos incorrectamente:\t\t" +
+            str(self.total_taken_pred_not_taken)
+            )
+        print(
+            "\t# branches no tomados predichos correctamente:\t\t" +
+            str(self.total_not_taken_pred_not_taken)
+            )
+        print(
+            "\t# branches no tomados predichos incorrectamente:\t" +
+            str(self.total_not_taken_pred_taken)
+            )
+
+        perc_correct = (100 *
+                        (self.total_taken_pred_taken +
+                         self.total_not_taken_pred_not_taken) /
+                        self.total_predictions
+                        )
+
         formatted_perc = "{:.3f}".format(perc_correct)
-        print("\t% predicciones correctas:\t\t\t\t"+str(formatted_perc)+"%")
+        print("\t% predicciones correctas:\t\t\t\t" +
+              str(formatted_perc) + "%"
+              )
 
     def predict(self, PC):
         index = int(PC) % self.size_of_branch_table
         branch_table_entry = self.branch_table[index]
-        if branch_table_entry in [0,1]:
+
+        if branch_table_entry in [0, 1]:
             return "N"
         else:
             return "T"
@@ -37,28 +62,51 @@ class bimodal:
         index = int(PC) % self.size_of_branch_table
         branch_table_entry = self.branch_table[index]
 
-        #Update entry accordingly
+        # Update entry accordingly
         if branch_table_entry == 0 and result == "N":
             updated_branch_table_entry = branch_table_entry
-            #print(PC,branch_table_entry,updated_branch_table_entry,result,prediction)
+            # print(
+            #     PC, branch_table_entry,
+            #     updated_branch_table_entry,
+            #     result, prediction
+            #     )
+
         elif branch_table_entry != 0 and result == "N":
             updated_branch_table_entry = branch_table_entry - 1
-            #print(PC,branch_table_entry,updated_branch_table_entry,result,prediction)
+            # print(
+            #     PC, branch_table_entry,
+            #     updated_branch_table_entry,
+            #     result, prediction
+            #     )
+
         elif branch_table_entry == 3 and result == "T":
             updated_branch_table_entry = branch_table_entry
-            #print(PC,branch_table_entry,updated_branch_table_entry,result,prediction)
+            # print(
+            #    PC, branch_table_entry,
+            #    updated_branch_table_entry,
+            #    result,prediction
+            #    )
+
         else:
             updated_branch_table_entry = branch_table_entry + 1
-            #print(PC,branch_table_entry,updated_branch_table_entry,result,prediction)
+            # print(
+            #    PC, branch_table_entry,
+            #    updated_branch_table_entry,
+            #    result,prediction
+            #    )
+
         self.branch_table[index] = updated_branch_table_entry
 
-        #Update stats
+        # Update stats
         if result == "T" and result == prediction:
             self.total_taken_pred_taken += 1
+
         elif result == "T" and result != prediction:
             self.total_taken_pred_not_taken += 1
+
         elif result == "N" and result == prediction:
             self.total_not_taken_pred_not_taken += 1
+
         else:
             self.total_not_taken_pred_taken += 1
 
