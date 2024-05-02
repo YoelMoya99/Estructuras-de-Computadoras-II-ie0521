@@ -54,5 +54,6 @@ dkms.conf
 # General files
 *.pdf
 *.gz
+*.pyc
 
 # Latex Files soon
