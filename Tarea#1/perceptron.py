@@ -76,38 +76,45 @@ class perceptron:
             xi*wi for xi, wi in zip(x, w)
             ])
 
-        if self.y_out <= 0.0:
+        if self.y_out <= 0:
             return "N"
         else:
             return "T"
 
     def update(self, PC, result, prediction):
         if result == "N":
-            t = 1
-        else:
             t = -1
+        else:
+            t = 1
 
+        miss = True
+        if result == prediction:
+            hit = False
+        else:
+            miss = True
+        
         PC_index = int(PC) % self.size_of_weights_table
         x = self.GH_reg
         w = self.weights_table[PC_index]
 
         # ==== UPDATING THE WEIGHTS USED === #
-
-        if ((self.y_out*t >= 0) or
+        
+        temp_w = w        
+        if ((miss)  or
                 (abs(self.y_out) <= self.threshold)):
 
             temp_w = [
-                wi + t*xi for xi, wi in zip(x, w)
+                (wi + (t*xi)) for xi, wi in zip(x, w)
                 ]
 
-            self.weights_table[PC_index] = temp_w
+        self.weights_table[PC_index] = temp_w
 
         # ==== UPDATING HISTORY REGISTER ==== #
 
         if result == "T":
             self.GH_reg = x[1:] + [1]
         else:
-            self.GH_reg = x[1:] + [0]
+            self.GH_reg = x[1:] + [-1]
 
         self.GH_reg[0] = 1  # input bias
 
