@@ -1,6 +1,5 @@
 class pshared:
-    def __init__(self,bits_to_index, pattern_table_size):
-        #Escriba aquí el init de la clase
+    def __init__(self, bits_to_index, pattern_table_size):
         self.bits_to_index = bits_to_index
         self.size_of_history_table = 2**bits_to_index
         self.size_of_pattern_table = 2**pattern_table_size
@@ -37,7 +36,6 @@ class pshared:
             str(self.size_of_pattern_table)
             )
 
-
     def print_stats(self):
         print("Resultados de la simulación")
         print(
@@ -61,9 +59,9 @@ class pshared:
             str(self.total_not_taken_pred_taken)
             )
         perc_correct = (100 * (self.total_taken_pred_taken +
-                 self.total_not_taken_pred_not_taken) /
-                self.total_predictions
-                )
+                        self.total_not_taken_pred_not_taken) /
+                        self.total_predictions
+                        )
 
         formatted_perc = "{:.3f}".format(perc_correct)
         print(
@@ -71,11 +69,7 @@ class pshared:
             str(formatted_perc)+"%"
             )
 
-
     def predict(self, PC):
-        #Escriba aquí el código para predecir
-        #La siguiente línea es solo para que funcione la prueba
-        #Quítela para implementar su código
         PC_index = int(PC) % self.size_of_history_table
         Ptrn_index = int(self.history_table[PC_index], 2)
         Counter = self.pattern_table[Ptrn_index]
@@ -84,18 +78,14 @@ class pshared:
             return "N"
         else:
             return "T"
-  
 
     def update(self, PC, result, prediction):
-        #Escriba aquí el código para actualizar
-        #La siguiente línea es solo para que funcione la prueba
-        #Quítela para implementar su código
         PC_index = int(PC) % self.size_of_history_table
         Str_Ptrn_index = self.history_table[PC_index]
         Ptrn_index = int(Str_Ptrn_index, 2)
         Counter = self.pattern_table[Ptrn_index]
 
-        # ==== UPDATING THE COUNTER IN PATTERN TABLE ==== # 
+        # ==== UPDATING THE COUNTER IN PATTERN TABLE ==== #
 
         if Counter == 0 and result == "N":
             pass
@@ -134,5 +124,3 @@ class pshared:
             self.total_not_taken_pred_taken += 1
 
         self.total_predictions += 1
-
-
