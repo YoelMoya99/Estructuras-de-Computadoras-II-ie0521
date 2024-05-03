@@ -92,15 +92,15 @@ class perceptron:
             hit = False
         else:
             miss = True
-        
+
         PC_index = int(PC) % self.size_of_weights_table
         x = self.GH_reg
         w = self.weights_table[PC_index]
 
         # ==== UPDATING THE WEIGHTS USED === #
-        
-        temp_w = w        
-        if ((miss)  or
+
+        temp_w = w
+        if ((miss) or
                 (abs(self.y_out) <= self.threshold)):
 
             temp_w = [
