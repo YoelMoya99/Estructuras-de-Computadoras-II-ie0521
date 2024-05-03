@@ -109,6 +109,8 @@ class perceptron:
         else:
             self.GH_reg = x[1:] + [0]
 
+        self.GH_reg[0] = 1  # input bias
+
         # ==== UPDATE STATS ==== #
 
         if result == "T" and result == prediction:
