@@ -1,5 +1,6 @@
 import math as m
 
+
 class perceptron:
     def __init__(self, bits_to_index, history_length):
         self.bits_to_index = bits_to_index
@@ -7,11 +8,9 @@ class perceptron:
         self.size_of_weights_table = 2**bits_to_index
         self.y_out = 0
         self.threshold = m.floor((1.93 * history_length) + 14)
-        
 
         self.GH_reg = [0 for i in range(history_length)]
         self.GH_reg[0] = 1  # Bias input
-        
 
         self.weights_table = [
             self.GH_reg for i in range(self.size_of_weights_table)
@@ -35,7 +34,6 @@ class perceptron:
             "\tTamaño de Tabla de pesos:   \t\t" +
             str(self.size_of_weights_table)
             )
-
 
     def print_stats(self):
         print("Resultados de la simulación")
@@ -70,10 +68,7 @@ class perceptron:
             )
 
     def predict(self, PC):
-        #Escriba aquí el código para predecir
-        #La siguiente línea es solo para que funcione la prueba
-        #Quítela para implementar su código
-        PC_index = int(PC) % self.size_of_weights_table 
+        PC_index = int(PC) % self.size_of_weights_table
         x = self.GH_reg
         w = self.weights_table[PC_index]
 
@@ -85,25 +80,21 @@ class perceptron:
             return "N"
         else:
             return "T"
-  
 
     def update(self, PC, result, prediction):
-        #Escriba aquí el código para actualizar
-        #La siguiente línea es solo para que funcione la prueba
-        #Quítela para implementar su código
         if result == "N":
             t = 1
         else:
             t = -1
 
-        PC_index = int(PC) % self.size_of_weights_table 
+        PC_index = int(PC) % self.size_of_weights_table
         x = self.GH_reg
         w = self.weights_table[PC_index]
 
         # ==== UPDATING THE WEIGHTS USED === #
-        
-        if ((self.y_out*t >= 0) or 
-            (abs(self.y_out) <= self.threshold)):
+
+        if ((self.y_out*t >= 0) or
+                (abs(self.y_out) <= self.threshold)):
 
             temp_w = [
                 wi + t*xi for xi, wi in zip(x, w)
