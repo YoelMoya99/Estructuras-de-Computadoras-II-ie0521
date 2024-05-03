@@ -29,6 +29,10 @@ parser.add_option(
         dest="TRACE_FILE",
         default="./branch-trace-gcc.trace.gz"
         )
+parser.add_option(
+        "-l",
+        dest="local_history_size"
+        )
 
 # AQUI IRÍAN LAS OPCIONES EXTRA
 
@@ -59,7 +63,10 @@ elif options.branch_predictor_type == "1":
 elif options.branch_predictor_type == "2":
 
     # Deben inicializar p-shared con los parámetros necesarios
-    branch_predictor = pshared()
+    branch_predictor = pshared(
+            int(options.bits_to_index),
+            int(options.local_history_size)
+            )
     branch_predictor.print_info()
 
 # Si --bp 3 entonces usamos perceptron
