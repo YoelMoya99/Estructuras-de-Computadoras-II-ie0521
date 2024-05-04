@@ -1,7 +1,8 @@
 class ie0521_bp:
     def __init__(self):
-        self.bits_to_index = 4
-        self.size_of_history_table = 2**4
+        bits_to_index = 13
+        self.bits_to_index = bits_to_index
+        self.size_of_history_table = 2**bits_to_index
         self.global_history_size = self.bits_to_index
 
         self.GH_reg = ""
@@ -62,9 +63,9 @@ class ie0521_bp:
         PC_index = int(PC) % self.size_of_history_table
         Counter = self.history_table[PC_index]
 
-        if Counter == 0:
+        if Counter >= 0 and Counter < 3:
             return "N"
-        elif Counter == 3:
+        elif Counter <= 7 and Counter > 4:
             return "T"
         else:
             if sum([int(i) for i in self.GH_reg]) > 8:
@@ -83,10 +84,12 @@ class ie0521_bp:
             pass
         elif Counter != 0 and result == "N":
             Counter -= 1
-        elif Counter == 3 and result == "T":
+        elif Counter == 7 and result == "T":
             pass
         else:
             Counter += 1
+
+        self.history_table[PC_index] = Counter
 
         # ==== UPDATING GLOBAL HISTORY REGISTER ==== #
 
